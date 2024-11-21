@@ -18,6 +18,12 @@ yarn
 yarn dev
 ```
 
+## Run tests
+
+```bash
+yarn test
+```
+
 ## Production
 
 Hosted on Vercel. Add environment variables from above.
