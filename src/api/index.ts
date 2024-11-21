@@ -1,7 +1,7 @@
-import { categorizeUserByOriginalPosts, Post } from '../agents/agents';
 import { AtpAgent } from '@atproto/api';
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
+import { categorizeUserByOriginalPosts } from '../agents/agents';
 
 // const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
 
@@ -28,9 +28,9 @@ app.get('/', async (_req: Request, res: Response) => {
     actor: 'ambercarr.bsky.social',
     limit: 50,
   });
-  const posts = data.feed.map((post) => post.post.record as Post);
-  const category = categorizeUserByOriginalPosts({ posts });
-  res.json(posts);
+  const feedItems = data.feed;
+  const category = categorizeUserByOriginalPosts({ feedItems });
+  res.json(feedItems);
 });
 
 export default app;
