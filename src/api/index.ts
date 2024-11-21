@@ -2,8 +2,9 @@ import { AtpAgent } from '@atproto/api';
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import { categorizeUserByOriginalPosts } from '../agents/agents';
+import { FeedItem } from '../lib/bluesky';
 
-// const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
+const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
 
 const agent = new AtpAgent({
   service: 'https://bsky.social',
@@ -26,10 +27,10 @@ app.get('/', async (_req: Request, res: Response) => {
 
   // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
   const { data } = await agent.getAuthorFeed({
-    actor: 'ambercarr.bsky.social',
+    actor: BLUESKY_DID,
     limit: 50,
   });
-  const feedItems = data.feed;
+  const feedItems = data.feed.map((item) => new FeedItem(item));
   const category = categorizeUserByOriginalPosts({ feedItems });
   res.json(feedItems);
 });

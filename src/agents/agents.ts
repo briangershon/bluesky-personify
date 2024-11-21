@@ -1,26 +1,20 @@
-import { FeedViewPost } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
+import { FeedItem } from '../lib/bluesky';
 
 export function categorizeUserByOriginalPosts({
   feedItems,
 }: {
-  feedItems: FeedViewPost[];
+  feedItems: FeedItem[];
 }): 'artist' | 'other' | 'unknown' {
   if (feedItems.length === 0) {
     return 'unknown';
   }
 
   for (const feedItem of feedItems) {
-    const post = feedItem.post;
-    const isRepost =
-      feedItem.reason?.$type === 'app.bsky.feed.defs#reasonRepost';
-
-    const content = post.record as { text: string };
-    const displayName = feedItem?.reason?.by as { displayName: string };
-    if (isRepost) {
-      console.log('Repost:', content);
-      console.log('Reposted by:', displayName);
+    if (feedItem.isRepost) {
+      console.log('Repost:', feedItem.content);
+      console.log('Reposted by:', feedItem.repostDisplayName);
     } else {
-      console.log('Original post:', content);
+      console.log('Original post:', feedItem.content);
     }
   }
 

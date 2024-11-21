@@ -2,6 +2,10 @@
 
 A social media agent that discovers and promotes art and artists on the Bluesky platform.
 
+Features
+
+- Discover artists to follow
+
 ## Local dev
 
 Create a `.env` file with the following:
