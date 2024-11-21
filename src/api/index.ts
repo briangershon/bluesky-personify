@@ -1,6 +1,8 @@
 import { AtpAgent } from '@atproto/api';
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
+import { categorizeUserByOriginalPosts } from '../agents/agents';
+import { FeedItem } from '../lib/bluesky';
 
 const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
 
@@ -18,11 +20,19 @@ app.get('/', async (_req: Request, res: Response) => {
     password: process.env.BLUESKY_PASSWORD!,
   });
 
-  const { data } = await agent.getProfile({
-    actor: BLUESKY_DID,
-  });
+  // const { data: profile } = await agent.getProfile({
+  //   actor: BLUESKY_DID,
+  // });
+  // console.log('profile', profile);
 
-  res.json({ displayName: data.displayName, description: data.description });
+  // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
+  const { data } = await agent.getAuthorFeed({
+    actor: BLUESKY_DID,
+    limit: 50,
+  });
+  const feedItems = data.feed.map((item) => new FeedItem(item));
+  const category = categorizeUserByOriginalPosts({ feedItems });
+  res.json(feedItems);
 });
 
 export default app;
