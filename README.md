@@ -17,3 +17,7 @@ Run:
 yarn
 yarn dev
 ```
+
+## Production
+
+Hosted on Vercel. Add environment variables from above.
