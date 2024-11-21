@@ -1,15 +1,15 @@
 import express, { Request, Response } from 'express';
-import { BlueskyProvider } from '../lib/bluesky';
+import { BlueskyAgent } from '../lib/bluesky';
 
 const app = express();
 
 app.use(express.json());
 
 app.get('/', async (_req: Request, res: Response) => {
-  const provider = new BlueskyProvider();
-  await provider.initAgent();
+  const agent = new BlueskyAgent();
+  await agent.init();
   const actor = 'ambercarr.bsky.social';
-  const category = await provider.categorizeAuthorFeed(actor);
+  const category = await agent.categorizeAuthorFeed(actor);
   res.json({ actor, category });
 });
 

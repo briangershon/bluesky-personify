@@ -47,10 +47,10 @@ export class FeedItem {
   }
 }
 
-export class BlueskyProvider {
+export class BlueskyAgent {
   agent: AtpAgent | undefined;
 
-  async initAgent() {
+  async init() {
     this.agent = new AtpAgent({
       service: 'https://bsky.social',
     });
@@ -63,7 +63,7 @@ export class BlueskyProvider {
 
   async categorizeAuthorFeed(actor: string) {
     if (!this.agent) {
-      throw new Error('BlueskyProvider not logged in?');
+      throw new Error('BlueskyAgent not logged in?');
     }
 
     // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
