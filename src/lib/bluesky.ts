@@ -1,16 +1,13 @@
-import { categorizeUserByOriginalPosts } from '../agents/agents';
 import { AtpAgent } from '@atproto/api';
 import {
   isReasonRepost,
   ReasonPin,
   ReasonRepost,
 } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
+import 'dotenv/config';
+import { categorizeUserByOriginalPosts } from '../agents/agents';
 
 const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
-
-const agent = new AtpAgent({
-  service: 'https://bsky.social',
-});
 
 interface PartialFeedViewPost {
   post: {
@@ -50,23 +47,37 @@ export class FeedItem {
   }
 }
 
-export async function categorizeAuthorFeed(actor: string) {
-  await agent.login({
-    identifier: process.env.BLUESKY_USERNAME!,
-    password: process.env.BLUESKY_PASSWORD!,
-  });
+export class BlueskyProvider {
+  agent: AtpAgent | undefined;
 
-  // const { data: profile } = await agent.getProfile({
-  //   actor: BLUESKY_DID,
-  // });
-  // console.log('profile', profile);
+  async initAgent() {
+    this.agent = new AtpAgent({
+      service: 'https://bsky.social',
+    });
 
-  // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
-  const { data } = await agent.getAuthorFeed({
-    actor: 'ambercarr.bsky.social',
-    limit: 50,
-  });
-  const feedItems = data.feed.map((item) => new FeedItem(item));
-  const category = categorizeUserByOriginalPosts({ feedItems });
-  return category;
+    await this.agent.login({
+      identifier: process.env.BLUESKY_USERNAME!,
+      password: process.env.BLUESKY_PASSWORD!,
+    });
+  }
+
+  async categorizeAuthorFeed(actor: string) {
+    if (!this.agent) {
+      throw new Error('BlueskyProvider not logged in?');
+    }
+
+    // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
+    const { data } = await this.agent.getAuthorFeed({
+      actor,
+      limit: 50,
+    });
+    const feedItems = data.feed.map((item) => new FeedItem(item));
+    const category = categorizeUserByOriginalPosts({ feedItems });
+    return category;
+  }
 }
+
+// const { data: profile } = await agent.getProfile({
+//   actor: BLUESKY_DID,
+// });
+// console.log('profile', profile);
