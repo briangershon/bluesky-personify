@@ -22,5 +22,8 @@ export function categorizeUserByOriginalPosts({
     }
   }
 
+  // TODO: Implement categorization logic
+  // IDEA: Are they selling their wares on a know marketplace or platform?
+
   return 'other';
 }

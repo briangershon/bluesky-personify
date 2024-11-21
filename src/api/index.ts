@@ -24,6 +24,7 @@ app.get('/', async (_req: Request, res: Response) => {
   // });
   // console.log('profile', profile);
 
+  // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
   const { data } = await agent.getAuthorFeed({
     actor: 'ambercarr.bsky.social',
     limit: 50,
