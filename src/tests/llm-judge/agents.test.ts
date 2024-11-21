@@ -11,6 +11,15 @@ test('should be "other" if unsure which type of user this is', () => {
       feedItems: [
         {
           post: {
+            uri: 'did:plc:7n7er6ofqzvrzm53yz6zihiw',
+            cid: 'Qm',
+            author: {
+              did: 'did:plc:7n7er6ofqzvrzm53yz6zihiw',
+              handle: 'yo',
+              displayName: 'Yo',
+              avatar: 'https://example.com/avatar.png',
+            },
+            indexedAt: '2021-09-01T00:00:00Z',
             record: { text: 'hello' },
           },
         },

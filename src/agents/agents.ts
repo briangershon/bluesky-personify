@@ -14,11 +14,13 @@ export function categorizeUserByOriginalPosts({
     const isRepost =
       feedItem.reason?.$type === 'app.bsky.feed.defs#reasonRepost';
 
+    const content = post.record as { text: string };
+    const displayName = feedItem?.reason?.by as { displayName: string };
     if (isRepost) {
-      console.log('Repost:', post.record.text);
-      console.log('Reposted by:', feedItem?.reason?.by?.displayName);
+      console.log('Repost:', content);
+      console.log('Reposted by:', displayName);
     } else {
-      console.log('Original post:', post.record.text);
+      console.log('Original post:', content);
     }
   }
 
