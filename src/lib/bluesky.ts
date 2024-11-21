@@ -1,8 +1,16 @@
+import { categorizeUserByOriginalPosts } from '../agents/agents';
+import { AtpAgent } from '@atproto/api';
 import {
   isReasonRepost,
   ReasonPin,
   ReasonRepost,
 } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
+
+const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
+
+const agent = new AtpAgent({
+  service: 'https://bsky.social',
+});
 
 interface PartialFeedViewPost {
   post: {
@@ -40,4 +48,25 @@ export class FeedItem {
   get isRepost() {
     return isReasonRepost(this.feedItem.reason);
   }
+}
+
+export async function categorizeAuthorFeed(actor: string) {
+  await agent.login({
+    identifier: process.env.BLUESKY_USERNAME!,
+    password: process.env.BLUESKY_PASSWORD!,
+  });
+
+  // const { data: profile } = await agent.getProfile({
+  //   actor: BLUESKY_DID,
+  // });
+  // console.log('profile', profile);
+
+  // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
+  const { data } = await agent.getAuthorFeed({
+    actor: 'ambercarr.bsky.social',
+    limit: 50,
+  });
+  const feedItems = data.feed.map((item) => new FeedItem(item));
+  const category = categorizeUserByOriginalPosts({ feedItems });
+  return category;
 }
