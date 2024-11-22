@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { BlueskyAgent } from '../lib/bluesky';
+// import { BlueskyAgent } from '../lib/bluesky';
 
 const app = express();
 
@@ -10,8 +10,8 @@ app.get('/', async (_req: Request, res: Response) => {
   // const agent = new BlueskyAgent();
   // await agent.init();
   // const actor = ''; // this is the username on bluesky.social
-  // const category = await agent.categorizeAuthorFeed(actor);
-  // res.json({ actor, category });
+  // const persona = await agent.personifyAuthorFeed(actor);
+  // res.json({ actor, persona });
 });
 
 export default app;
