@@ -4,7 +4,8 @@ A social media agent that discovers and promotes art and artists on the Bluesky 
 
 Features
 
-- Discover artists to follow
+- TDD development with an LLM
+- Integration with Bluesky API
 
 ## Local dev
 
