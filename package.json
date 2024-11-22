@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "vercel-build": "tsc",
-    "test": "vitest"
+    "test": "vitest tests/lib",
+    "test-llm": "vitest tests/llm-judge",
+    "test-all": "vitest"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^1.0.2",
     "@atproto/api": "^0.13.16",
+    "ai": "^4.0.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
