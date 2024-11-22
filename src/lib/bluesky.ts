@@ -6,6 +6,7 @@ import {
 } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
 import 'dotenv/config';
 import { categorizeUserByOriginalPosts } from '../agents/agents';
+import { categorizeOnePost, describeOnePost } from './ai';
 
 const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
 
@@ -69,10 +70,28 @@ export class BlueskyAgent {
     // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
     const { data } = await this.agent.getAuthorFeed({
       actor,
-      limit: 50,
+      limit: 10, //50
     });
     const feedItems = data.feed.map((item) => new FeedItem(item));
     const category = categorizeUserByOriginalPosts({ feedItems });
+
+    console.log({ feedItems });
+    const content = feedItems
+      .filter((item) => !item.isRepost)
+      .map((item) => item.content);
+
+    console.log({ content });
+
+    for (let i = 0; i < content.length; i++) {
+      const item = content[i] ?? '';
+      const response = await describeOnePost(item);
+      const category = await categorizeOnePost(item);
+      console.log({ item, response, category });
+    }
+
+    // const cat = await categorize(content);
+    // console.log({ cat });
+
     return category;
   }
 }

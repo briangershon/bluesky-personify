@@ -1,10 +1,11 @@
+import { UserCategory } from '../lib/ai';
 import { FeedItem } from '../lib/bluesky';
 
 export function categorizeUserByOriginalPosts({
   feedItems,
 }: {
   feedItems: FeedItem[];
-}): 'artist' | 'other' | 'unknown' {
+}): UserCategory {
   if (feedItems.length === 0) {
     return 'unknown';
   }
