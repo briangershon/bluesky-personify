@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json());
 
 // Middleware to check for API key
-const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
+function checkApiKey(req: Request, res: Response, next: NextFunction): void {
   const apiKey = req.query.apiKey;
 
   if (!apiKey) {
-    return res.status(401).json({
+    res.status(401).json({
       error: 'API key is required',
       message: 'Please provide an apiKey query parameter',
     });
@@ -18,14 +18,14 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
 
   // You could check against valid API keys here
   if (apiKey !== process.env.API_KEY) {
-    return res.status(403).json({
+    res.status(403).json({
       error: 'Invalid API key',
       message: 'The provided API key is not valid',
     });
   }
 
   next(); // Proceed to the next middleware/route handler
-};
+}
 
 app.get('/', async (_req: Request, res: Response) => {
   res.send('Hello!');
