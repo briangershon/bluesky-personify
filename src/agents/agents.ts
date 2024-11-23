@@ -1,26 +1,26 @@
-import { UserCategory } from '../lib/ai';
+import { createPersonaFromPosts } from '../lib/ai';
 import { FeedItem } from '../lib/bluesky';
 
-export function categorizeUserByOriginalPosts({
+export async function createPersonaBasedOnPosts({
   feedItems,
 }: {
   feedItems: FeedItem[];
-}): UserCategory {
+}): Promise<string> {
   if (feedItems.length === 0) {
-    return 'unknown';
+    return 'no posts to analyze';
   }
 
+  const contentItems = [];
+
   for (const feedItem of feedItems) {
-    if (feedItem.isRepost) {
-      console.log('Repost:', feedItem.content);
-      console.log('Reposted by:', feedItem.repostDisplayName);
-    } else {
-      console.log('Original post:', feedItem.content);
+    // only include original posts
+    if (!feedItem.isRepost) {
+      const content = feedItem.content;
+      if (content) {
+        contentItems.push(content);
+      }
     }
   }
 
-  // TODO: Implement categorization logic
-  // IDEA: Are they selling their wares on a know marketplace or platform?
-
-  return 'other';
+  return (await createPersonaFromPosts(contentItems)).persona;
 }

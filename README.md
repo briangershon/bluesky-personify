@@ -1,11 +1,10 @@
-# bluesky-art-enthusiast
+# bluesky-personify
 
-A social media agent that discovers and promotes art and artists on the Bluesky platform.
+A social media agent that creates fun personas based on Bluesky posts.
 
 Features
 
-- TDD development with an LLM
-- Integration with Bluesky API
+- Create a persona based on a Bluesky user
 
 ## Local dev
 
@@ -15,6 +14,7 @@ Create a `.env` file with the following:
 BLUESKY_USERNAME=
 BLUESKY_PASSWORD=
 ANTHROPIC_API_KEY=
+API_KEY=
 ```
 
 Run:
