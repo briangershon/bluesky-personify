@@ -1,4 +1,4 @@
-# bluesky-persona
+# bluesky-personify
 
 A social media agent that creates fun personas based on Bluesky posts.
 
@@ -14,6 +14,7 @@ Create a `.env` file with the following:
 BLUESKY_USERNAME=
 BLUESKY_PASSWORD=
 ANTHROPIC_API_KEY=
+API_KEY=
 ```
 
 Run:
