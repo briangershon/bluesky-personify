@@ -1,11 +1,10 @@
-# bluesky-art-enthusiast
+# bluesky-persona
 
-A social media agent that discovers and promotes art and artists on the Bluesky platform.
+A social media agent that creates fun personas based on Bluesky posts.
 
 Features
 
-- TDD development with an LLM
-- Integration with Bluesky API
+- Create a persona based on a Bluesky user
 
 ## Local dev
 

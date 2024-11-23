@@ -9,7 +9,7 @@ app.get('/', async (_req: Request, res: Response) => {
   res.send('Hello!');
   // const agent = new BlueskyAgent();
   // await agent.init();
-  // const actor = ''; // this is the username on bluesky.social
+  // const actor = ''; // this is the username on bsky.social
   // const persona = await agent.personifyAuthorFeed(actor);
   // res.json({ actor, persona });
 });
