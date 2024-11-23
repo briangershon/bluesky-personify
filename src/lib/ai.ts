@@ -56,6 +56,7 @@ export async function createPersonaFromPosts(
   feedContent: string[]
 ): Promise<PersonaResult> {
   const prompt = `First summarize the following posts, then create a persona based on that summary.
+  A persona should have a summary section, estimated age, personality traits, interests, communication style, goals and potential challenges.
         
         Posts: ${feedContent.join('\n')}`;
   const { text: persona, usage } = await generateText({
