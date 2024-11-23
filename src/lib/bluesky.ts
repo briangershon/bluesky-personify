@@ -66,12 +66,24 @@ export class BlueskyAgent {
       throw new Error('BlueskyAgent not logged in?');
     }
 
-    // TODO: ADD CURSOR PAGINATION TO RETRIEVE ALL POSTS
-    const { data } = await this.agent.getAuthorFeed({
-      actor,
-      limit: 10, //50
-    });
-    const feedItems = data.feed.map((item) => new FeedItem(item));
+    const feedItems: FeedItem[] = [];
+
+    let cursor: string | undefined = undefined;
+
+    do {
+      const { data } = await this.agent.getAuthorFeed({
+        actor,
+        limit: 50,
+        cursor,
+      });
+
+      for (const post of data.feed) {
+        feedItems.push(new FeedItem(post));
+      }
+
+      cursor = data.cursor;
+    } while (cursor);
+
     const persona = createPersonaBasedOnPosts({ feedItems });
     return persona;
   }

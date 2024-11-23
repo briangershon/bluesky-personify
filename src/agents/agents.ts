@@ -13,12 +13,9 @@ export async function createPersonaBasedOnPosts({
   const contentItems = [];
 
   for (const feedItem of feedItems) {
-    if (feedItem.isRepost) {
-      console.log('Repost:', feedItem.content);
-      console.log('Reposted by:', feedItem.repostDisplayName);
-    } else {
+    // only include original posts
+    if (!feedItem.isRepost) {
       const content = feedItem.content;
-      console.log('Original post:', content);
       if (content) {
         contentItems.push(content);
       }

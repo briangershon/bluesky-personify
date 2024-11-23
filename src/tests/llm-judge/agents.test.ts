@@ -7,18 +7,3 @@ test('should be "no posts to analyze" if there are no posts', async () => {
     'no posts to analyze'
   );
 });
-
-test('should create a persona', async () => {
-  // expect(
-  const result = await createPersonaBasedOnPosts({
-    feedItems: [
-      new FeedItem({
-        post: {
-          record: { text: 'hello' },
-        },
-      }),
-    ],
-  });
-  console.log('result', result);
-  // ).toBe('other');
-});
