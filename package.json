@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "vercel-build": "tsc",
-    "test": "vitest tests/lib",
+    "test-unit": "vitest tests/lib",
     "test-llm": "vitest tests/llm-judge",
-    "test-all": "vitest"
+    "test": "vitest"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.2",

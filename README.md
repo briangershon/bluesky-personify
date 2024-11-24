@@ -27,22 +27,22 @@ yarn dev
 
 ## Run tests
 
-Run the fast and non-LLM tests:
+Run all tests:
 
 ```bash
 yarn test
 ```
 
-Run the slow and expensive LLM tests:
+Run only the slow and expensive LLM tests:
 
 ```bash
 yarn test-llm
 ```
 
-Run them all:
+Run only the fast unit tests:
 
 ```bash
-yarn test-all
+yarn test-unit
 ```
 
 ## Production
