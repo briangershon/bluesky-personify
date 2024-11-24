@@ -1,10 +1,11 @@
 # bluesky-personify
 
-A social media agent that creates fun personas based on Bluesky posts.
+A social media agent that creates entertaining personas based on Bluesky posts.
 
 Features
 
-- Create a persona based on a Bluesky user
+- Create personas of Bluesky users based on their posts
+- Provide a way to find users that match your interests
 
 ## Local dev
 
@@ -26,22 +27,22 @@ yarn dev
 
 ## Run tests
 
-Run the fast and non-LLM tests:
+Run all tests:
 
 ```bash
 yarn test
 ```
 
-Run the slow and expensive LLM tests:
+Run only the slow and expensive LLM tests:
 
 ```bash
 yarn test-llm
 ```
 
-Run them all:
+Run only the fast unit tests:
 
 ```bash
-yarn test-all
+yarn test-unit
 ```
 
 ## Production

@@ -5,7 +5,6 @@ import {
   ReasonRepost,
 } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
 import 'dotenv/config';
-import { createPersonaBasedOnPosts } from '../agents/agents';
 
 const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
 
@@ -18,7 +17,7 @@ interface PartialFeedViewPost {
   reason?: ReasonRepost | ReasonPin | { $type: string; [k: string]: unknown };
 }
 
-export class FeedItem {
+export class BlueskyFeedItem {
   feedItem: PartialFeedViewPost;
 
   constructor(feedItem: PartialFeedViewPost) {
@@ -47,49 +46,48 @@ export class FeedItem {
   }
 }
 
-export class BlueskyAgent {
-  agent: AtpAgent | undefined;
+export class Bluesky {
+  bluesky: AtpAgent | undefined;
 
   async init() {
-    this.agent = new AtpAgent({
+    this.bluesky = new AtpAgent({
       service: 'https://bsky.social',
     });
 
-    await this.agent.login({
+    await this.bluesky.login({
       identifier: process.env.BLUESKY_USERNAME!,
       password: process.env.BLUESKY_PASSWORD!,
     });
   }
 
-  async personifyAuthorFeed(actor: string) {
-    if (!this.agent) {
-      throw new Error('BlueskyAgent not logged in?');
+  async retrieveAuthorFeed(actor: string): Promise<BlueskyFeedItem[]> {
+    if (!this.bluesky) {
+      throw new Error('Bluesky not logged in?');
     }
 
-    const feedItems: FeedItem[] = [];
+    const feedItems: BlueskyFeedItem[] = [];
 
     let cursor: string | undefined = undefined;
 
     do {
-      const { data } = await this.agent.getAuthorFeed({
+      const { data } = await this.bluesky.getAuthorFeed({
         actor,
         limit: 50,
         cursor,
       });
 
       for (const post of data.feed) {
-        feedItems.push(new FeedItem(post));
+        feedItems.push(new BlueskyFeedItem(post));
       }
 
       cursor = data.cursor;
     } while (cursor);
 
-    const persona = createPersonaBasedOnPosts({ feedItems });
-    return persona;
+    return feedItems;
   }
 }
 
-// const { data: profile } = await agent.getProfile({
+// const { data: profile } = await bluesky.getProfile({
 //   actor: BLUESKY_DID,
 // });
 // console.log('profile', profile);
