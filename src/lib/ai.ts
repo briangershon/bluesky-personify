@@ -63,6 +63,6 @@ export async function createPersonaFromPosts(
     model: anthropic('claude-3-5-haiku-20241022'),
     prompt,
   });
-  console.info({ prompt, persona, usage });
+  console.info('createPersonaFromPosts', { prompt, persona, usage });
   return { prompt, persona, usage };
 }
