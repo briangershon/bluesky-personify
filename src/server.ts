@@ -1,6 +1,8 @@
+import { PrismaClient } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { Agent } from './agent';
 import { Bluesky } from './lib/bluesky';
+import { Database } from './lib/database';
 
 const app = express();
 
@@ -10,7 +12,7 @@ app.get('/', async (_req: Request, res: Response) => {
   res.send('Hello!');
 });
 
-app.get(
+app.post(
   '/personify/:username',
   checkApiKey,
   async (req: Request, res: Response) => {
@@ -19,11 +21,38 @@ app.get(
     await bluesky.init();
 
     const agent = new Agent(bluesky);
-
+    const profile = await bluesky.retrieveProfile(username);
     const result = await agent.personifyAuthorFeed(username);
+
+    const prisma = new PrismaClient();
+    const db = new Database(prisma);
+    const allProfiles = await db.createProfile({
+      did: profile.did,
+      handle: profile.handle,
+      description: profile.description,
+      displayname: profile.displayName,
+      avatar: profile.avatar,
+      postscount: profile.postsCount,
+      persona: result.persona,
+    });
+
     res.json({ actor: username, persona: result.persona });
   }
 );
+
+app.get('/personify/:username', async (req: Request, res: Response) => {
+  const username = req.params.username;
+  const bluesky = new Bluesky();
+  await bluesky.init();
+
+  const { did } = await bluesky.retrieveProfile(username);
+
+  const prisma = new PrismaClient();
+  const db = new Database(prisma);
+  const profile = await db.getProfile(did);
+
+  res.json({ actor: username, profile });
+});
 
 export default app;
 

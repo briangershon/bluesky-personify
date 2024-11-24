@@ -6,8 +6,6 @@ import {
 } from '@atproto/api/dist/client/types/app/bsky/feed/defs';
 import 'dotenv/config';
 
-const BLUESKY_DID = 'did:plc:7n7er6ofqzvrzm53yz6zihiw';
-
 interface PartialFeedViewPost {
   post: {
     record?: {
@@ -60,6 +58,17 @@ export class Bluesky {
     });
   }
 
+  async retrieveProfile(actor: string) {
+    if (!this.bluesky) {
+      throw new Error('Bluesky not logged in?');
+    }
+
+    const { data: profile } = await this.bluesky.getProfile({
+      actor,
+    });
+    return profile;
+  }
+
   async retrieveAuthorFeed(actor: string): Promise<BlueskyFeedItem[]> {
     if (!this.bluesky) {
       throw new Error('Bluesky not logged in?');
@@ -86,8 +95,3 @@ export class Bluesky {
     return feedItems;
   }
 }
-
-// const { data: profile } = await bluesky.getProfile({
-//   actor: BLUESKY_DID,
-// });
-// console.log('profile', profile);
