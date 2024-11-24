@@ -24,7 +24,7 @@ app.post(
     const db = new Database(prisma);
 
     const agent = new Agent(bluesky);
-    const profile = await bluesky.retrieveProfile(username);
+    const profile = await bluesky.retrieveProfile(username); // throws if invalid did
     const did = profile.did;
 
     const existingProfile = await db.getProfile(did);

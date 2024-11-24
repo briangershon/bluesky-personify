@@ -63,5 +63,5 @@ Hosted on Vercel. Add environment variables from above.
 For example, create persona for `brianfive.xyz` via
 
 ```bash
-curl -X POST http://localhost:3000/personify/brianfive.xyz?api_key=123
+curl -i -X POST http://localhost:3000/personify/brianfive.xyz?api_key=123
 ```
