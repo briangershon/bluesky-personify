@@ -67,6 +67,18 @@ app.get('/personify/:username', async (req: Request, res: Response) => {
   res.json({ actor: username, profile });
 });
 
+app.get('/profiles/recent', async (req: Request, res: Response) => {
+  const username = req.params.username;
+  const bluesky = new Bluesky();
+  await bluesky.init();
+
+  const prisma = new PrismaClient();
+  const db = new Database(prisma);
+  const profiles = await db.mostRecentProfiles();
+
+  res.json({ actor: username, profiles });
+});
+
 export default app;
 
 // Middleware to check for API key
