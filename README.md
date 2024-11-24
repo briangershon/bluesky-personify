@@ -1,10 +1,13 @@
 # bluesky-personify
 
-A social media agent that creates fun personas based on Bluesky posts.
+A social media agent that creates entertaining personas based on Bluesky posts.
 
 Features
 
-- Create a persona based on a Bluesky user
+- Create personas of Bluesky users based on their posts
+- Provide a way to find users that match your interests
+
+create personas of users based on their posts.
 
 ## Local dev
 
