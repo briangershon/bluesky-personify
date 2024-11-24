@@ -16,6 +16,7 @@ BLUESKY_USERNAME=
 BLUESKY_PASSWORD=
 ANTHROPIC_API_KEY=
 API_KEY=
+DATABASE_URL=
 ```
 
 Run:
@@ -48,3 +49,9 @@ yarn test-unit
 ## Production
 
 Hosted on Vercel. Add environment variables from above.
+
+## Create a persona for a Bluesky User named brianfive.xyz
+
+```bash
+curl -X POST http://localhost:3000/personify/brianfive.xyz?apiKey=123
+```

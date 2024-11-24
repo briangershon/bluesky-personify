@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// please use lowercase table and field names for PostgreSQL
+
+model profile {
+  id          Int      @id @default(autoincrement())
+  did         String   @unique
+  handle      String
+  description String?
+  displayname String?
+  avatar      String?
+  postscount  Int?
+  persona     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
