@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
-import { FeedItem } from '../../lib/bluesky';
+import { BlueskyFeedItem } from '../../lib/bluesky';
 
 describe('each post', () => {
   test('a post should have content', () => {
-    const feedItem = new FeedItem({
+    const feedItem = new BlueskyFeedItem({
       post: {
         record: {
           text: 'Hello world',
@@ -14,7 +14,7 @@ describe('each post', () => {
   });
 
   test('if no "record", content should be empty string', () => {
-    const feedItem = new FeedItem({
+    const feedItem = new BlueskyFeedItem({
       post: {},
     });
     expect(feedItem.content).toBe('');
@@ -23,7 +23,7 @@ describe('each post', () => {
 
 describe('an original post', () => {
   test('should identify an "original" post', () => {
-    const feedItem = new FeedItem({
+    const feedItem = new BlueskyFeedItem({
       post: {
         record: {
           text: 'Hello world',
@@ -36,7 +36,7 @@ describe('an original post', () => {
 
 describe('a repost', () => {
   test('should identify a "repost"', () => {
-    const feedItem = new FeedItem({
+    const feedItem = new BlueskyFeedItem({
       post: {
         record: {
           text: 'Hello world',

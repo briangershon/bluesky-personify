@@ -7,8 +7,6 @@ Features
 - Create personas of Bluesky users based on their posts
 - Provide a way to find users that match your interests
 
-create personas of users based on their posts.
-
 ## Local dev
 
 Create a `.env` file with the following:

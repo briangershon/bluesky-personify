@@ -17,7 +17,7 @@ interface PartialFeedViewPost {
   reason?: ReasonRepost | ReasonPin | { $type: string; [k: string]: unknown };
 }
 
-export class FeedItem {
+export class BlueskyFeedItem {
   feedItem: PartialFeedViewPost;
 
   constructor(feedItem: PartialFeedViewPost) {
@@ -60,12 +60,12 @@ export class Bluesky {
     });
   }
 
-  async retrieveAuthorFeed(actor: string): Promise<FeedItem[]> {
+  async retrieveAuthorFeed(actor: string): Promise<BlueskyFeedItem[]> {
     if (!this.bluesky) {
       throw new Error('Bluesky not logged in?');
     }
 
-    const feedItems: FeedItem[] = [];
+    const feedItems: BlueskyFeedItem[] = [];
 
     let cursor: string | undefined = undefined;
 
@@ -77,7 +77,7 @@ export class Bluesky {
       });
 
       for (const post of data.feed) {
-        feedItems.push(new FeedItem(post));
+        feedItems.push(new BlueskyFeedItem(post));
       }
 
       cursor = data.cursor;
