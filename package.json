@@ -7,7 +7,8 @@
     "vercel-build": "tsc",
     "test-unit": "vitest tests/lib",
     "test-llm": "vitest tests/llm-judge",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.2",
