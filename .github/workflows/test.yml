@@ -11,3 +11,5 @@ jobs:
           node-version: '20.x'
       - run: yarn
       - run: yarn test
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
