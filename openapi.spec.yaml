@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  title: Bluesky Personify API
+  description: API for interacting with Bluesky profiles and persona data.
+  version: 1.0.0
+servers:
+  - url: https://bluesky-personify.vercel.app/
+    description: An API for interacting with Bluesky profiles and persona data.
+paths:
+  /:
+    get:
+      operationId: getRoot
+      summary: Root endpoint
+      description: Returns a simple greeting message.
+      responses:
+        '200':
+          description: Success response with greeting message
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello!
+  /personify/{username}:
+    get:
+      operationId: getPersonify
+      summary: Retrieve profile information
+      description: Retrieves profile information for the specified username.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The username whose profile is to be retrieved
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  actor:
+                    type: string
+                    description: The username of the actor
+                  profile:
+                    type: object
+                    description: Profile data
+                    properties:
+                      did:
+                        type: string
+                        description: Decentralized Identifier
+                      handle:
+                        type: string
+                        description: Profile handle
+                      description:
+                        type: string
+                        description: Profile description
+                      displayname:
+                        type: string
+                        description: Display name of the profile
+                      avatar:
+                        type: string
+                        description: URL of the profile avatar
+                      postscount:
+                        type: integer
+                        description: Number of posts by the profile
+  /profiles/recent:
+    get:
+      operationId: getRecentProfiles
+      summary: Retrieve most recent profiles
+      description: Fetches the most recently created profiles from the database.
+      responses:
+        '200':
+          description: Recent profiles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  profiles:
+                    type: array
+                    description: List of recent profiles
+                    items:
+                      type: object
+                      properties:
+                        did:
+                          type: string
+                          description: Decentralized Identifier
+                        handle:
+                          type: string
+                          description: Profile handle
+                        description:
+                          type: string
+                          description: Profile description
+                        displayname:
+                          type: string
+                          description: Display name of the profile
+                        avatar:
+                          type: string
+                          description: URL of the profile avatar
+                        postscount:
+                          type: integer
+                          description: Number of posts by the profile
