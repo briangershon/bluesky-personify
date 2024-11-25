@@ -16,6 +16,7 @@ export interface ProfileAbbreviatedFields {
   updated_at: string;
   description: string | null;
   avatar: string | null;
+  persona: string;
 }
 
 export class Database {
@@ -49,6 +50,7 @@ export class Database {
         postscount: true,
         description: true,
         avatar: true,
+        persona: true,
       },
       orderBy: {
         updated_at: 'desc',
