@@ -1,27 +1,25 @@
 import {
   createPersonaFromPosts,
   describeOnePost,
-  isReasonableSummaryForOnePost,
+  testIsReasonableSummaryForOnePost,
 } from '../../lib/ai';
 import { describe, expect, test } from 'vitest';
 
-describe('isReasonableSummaryForOnePost', () => {
+describe('testIsReasonableSummaryForOnePost', () => {
   test('painting may have a romantic or nostalgic theme', async () => {
     const post =
       'Love me Tender ❤️‍🩹\n' +
       'Original oil painting sold, but prints are available \n';
     const result = await describeOnePost(post);
     expect(
-      await isReasonableSummaryForOnePost({ post, summary: result.result })
+      await testIsReasonableSummaryForOnePost({ post, summary: result.result })
     ).toBeTruthy();
   });
 
-  test('person is currently developing or improving something', async () => {
+  test('Unable to generate a summary due to insufficient content', async () => {
     const post = 'Work in progress babyyyy';
     const result = await describeOnePost(post);
-    expect(
-      await isReasonableSummaryForOnePost({ post, summary: result.result })
-    ).toBeTruthy();
+    expect(result.result).toBe('');
   });
 
   test('post has been anthropomorphized', async () => {
@@ -29,7 +27,7 @@ describe('isReasonableSummaryForOnePost', () => {
       'They need to stop giving things faces because how am I supposed to just throw her in the trash 😟';
     const result = await describeOnePost(post);
     expect(
-      await isReasonableSummaryForOnePost({
+      await testIsReasonableSummaryForOnePost({
         post,
         summary: result.result,
       })
@@ -49,7 +47,7 @@ describe('createPersonaFromPosts', () => {
 
     // does the prompt exist?
     expect(prompt).toContain(
-      'First summarize the following posts, then create a persona based on that summary.'
+      'Analyze the following social media posts and create a comprehensive user profile in two parts'
     );
 
     // does the prompt include all the posts?
@@ -58,12 +56,13 @@ describe('createPersonaFromPosts', () => {
     }
 
     // does the persona have all the expected pieces?
-    expect(persona.toLowerCase()).toContain('summary:');
-    expect(persona.toLowerCase()).toContain('estimated age:');
-    expect(persona.toLowerCase()).toContain('personality traits:');
-    expect(persona.toLowerCase()).toContain('interests:');
-    expect(persona.toLowerCase()).toContain('communication style:');
-    expect(persona.toLowerCase()).toContain('goals:');
-    expect(persona.toLowerCase()).toContain('potential challenges:');
+    expect(persona.toLowerCase()).toContain('overview');
+    expect(persona.toLowerCase()).toContain('demographics');
+    expect(persona.toLowerCase()).toContain('estimated age range');
+    expect(persona.toLowerCase()).toContain('personality profile');
+    expect(persona.toLowerCase()).toContain('interests & behaviors');
+    expect(persona.toLowerCase()).toContain('goals & motivations');
+    expect(persona.toLowerCase()).toContain('challenges & pain points');
+    expect(persona.toLowerCase()).toContain('communication preferences');
   });
 });
