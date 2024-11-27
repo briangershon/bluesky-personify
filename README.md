@@ -1,11 +1,18 @@
 # bluesky-personify
 
-A social media agent that creates entertaining personas based on Bluesky posts.
+An API that creates and retrieves entertaining personas based a user's latest Bluesky posts.
 
 Features
 
-- create personas of Bluesky users based on their posts
-- provide a way to find users that match your interests
+- Create personas of Bluesky users based on their last 50 original posts. Reposts, as well as posts that can't be summarized are excluded.
+- Retrieve list of latest 20 personas added.
+- Retrieve a persona by username.
+
+Use Cases
+
+- Create a custom GPT on OpenAI that consumes this API and allows one to interact with the personas, ask questions, find connections between personas, generate images, and more.
+  - Included is a `openapi.spec.yaml` file that describes the API for OpenAI and LLMs to use.
+  - Note that the `/personify` POST endpoint is protected by an API key and not included in the openAPI specification to avoid unbounded LLM costs if it were an open endpoint. Therefore new personas can only be created by trusted users.
 
 ## Run locally for development
 
