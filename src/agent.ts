@@ -1,4 +1,8 @@
-import { createPersonaFromPosts, PersonaResult } from './lib/ai';
+import {
+  createPersonaFromPosts,
+  describeOnePost,
+  PersonaResult,
+} from './lib/ai';
 import { Bluesky } from './lib/bluesky';
 
 export class Agent {
@@ -9,7 +13,7 @@ export class Agent {
   }
 
   async personifyAuthorFeed(actor: string): Promise<PersonaResult> {
-    const feedItems = await this.bluesky.retrieveAuthorFeed(actor);
+    const feedItems = await this.bluesky.retrieveAuthorFeed({ actor });
 
     if (feedItems.length === 0) {
       throw new Error('No posts to analyze');
@@ -22,9 +26,18 @@ export class Agent {
       if (!feedItem.isRepost) {
         const content = feedItem.content;
         if (content) {
-          contentItems.push(content);
+          const hydratedPostResult = await describeOnePost(content);
+          if (hydratedPostResult.result && hydratedPostResult.result !== '""') {
+            contentItems.push(hydratedPostResult.result);
+          }
         }
       }
+    }
+
+    if (contentItems.length === 0) {
+      throw new Error(
+        'No posts to analyze. User may have zero posts, or may have only reposted content.'
+      );
     }
 
     return await createPersonaFromPosts(contentItems);

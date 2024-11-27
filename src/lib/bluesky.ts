@@ -69,7 +69,13 @@ export class Bluesky {
     return profile;
   }
 
-  async retrieveAuthorFeed(actor: string): Promise<BlueskyFeedItem[]> {
+  async retrieveAuthorFeed({
+    actor,
+    maxPosts = 50,
+  }: {
+    actor: string;
+    maxPosts?: number;
+  }): Promise<BlueskyFeedItem[]> {
     if (!this.bluesky) {
       throw new Error('Bluesky not logged in?');
     }
@@ -77,6 +83,7 @@ export class Bluesky {
     const feedItems: BlueskyFeedItem[] = [];
 
     let cursor: string | undefined = undefined;
+    let count = 0;
 
     do {
       const { data } = await this.bluesky.getAuthorFeed({
@@ -90,7 +97,8 @@ export class Bluesky {
       }
 
       cursor = data.cursor;
-    } while (cursor);
+      count += data.feed.length;
+    } while (cursor && count < maxPosts);
 
     return feedItems;
   }
