@@ -27,7 +27,7 @@ export class Agent {
         const content = feedItem.content;
         if (content) {
           const hydratedPostResult = await describeOnePost(content);
-          if (hydratedPostResult.result && hydratedPostResult.result !== '""') {
+          if (hydratedPostResult.result) {
             contentItems.push(hydratedPostResult.result);
           }
         }

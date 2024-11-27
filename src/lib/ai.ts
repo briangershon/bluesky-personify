@@ -24,6 +24,10 @@ Post: ${post}
 Respond with only the summary or an empty string - no additional text, labels or explanations.`,
   });
   console.info({ post, result: text, usage });
+  if (text === '""') {
+    // not enough info to summarize
+    return { input: post, result: '', usage }; // normalize empty string from LLM to a JavaScript empty string
+  }
   return { input: post, result: text, usage };
 }
 
