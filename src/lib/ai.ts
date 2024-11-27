@@ -17,16 +17,17 @@ export interface PersonaResult {
 export async function describeOnePost(post: string): Promise<ResultText> {
   const { text, usage } = await generateText({
     model: anthropic('claude-3-5-haiku-20241022'),
-    prompt: `Write a clear, two-sentence summary of this post that captures both its key message and supporting context.
-The summary should be self-contained and preserve the original tone.
-If unable to generate a summary due to insufficient content, provide an empty summary.
+    prompt: `If this text contains enough meaningful content for summarization, write a clear, two-sentence summary that captures both its key message and supporting context. The summary should be self-contained and preserve the original tone. If the text is empty, contains only formatting/markup, or lacks sufficient meaningful content for a proper summary, respond with an empty string ("").
 
-Post:
-${post}
+Post: ${post}
 
-Respond with only the summary, no additional text or labels.`,
+Respond with only the summary or an empty string - no additional text, labels or explanations.`,
   });
   console.info({ post, result: text, usage });
+  if (text === '""') {
+    // not enough info to summarize
+    return { input: post, result: '', usage }; // normalize empty string from LLM to a JavaScript empty string
+  }
   return { input: post, result: text, usage };
 }
 
